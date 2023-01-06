@@ -1,8 +1,13 @@
 package cinema;
+
 import java.util.Scanner;
 import java.text.DecimalFormat;
-public class Cinema {
 
+public class Cinema {
+    
+    //To start the user is asked to create the cinema by choosing number of rows and seats and are used as array dimensions
+    //all values of array start as zero to show the seat is available, total number of seats is calculated
+    //all statistic values are set to zero (total income, current income, tickets bought)
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the number of rows:");
@@ -15,6 +20,7 @@ public class Cinema {
         int totalSeats = rows * seats;
         int totalIncome = 0;
         int curIncome = 0;
+        //total income is calculated based on number of seats and ticket prices
         if (totalSeats <= 60) {
             totalIncome = totalSeats * 10;
         } else if (totalSeats > 60) {
@@ -22,17 +28,25 @@ public class Cinema {
         }
         int ticketsBought = 0;
         boolean seatsAvailable = true;
+        
+        //the program runs in a while loop based on boolean seatsAvailable
+        //a menu is displayed with four options
         while (seatsAvailable) {
             System.out.println("1. Show the seats");
             System.out.println("2. Buy a ticket");
             System.out.println("3. Statistics");
             System.out.println("0. Exit");
             int choice = scanner.nextInt();
+            
+           //depending on the user input one of three options are possible
             switch (choice) {
+                 //if 1 is entered the cinema is drawn
                 case 1: {
                     drawCin(cin, rows, seats);
                     continue;
                 }
+                //if 2 is entered the user is asked for locations (row, seat number)
+                //if the input is the wrong form an error message is printed and the user re-asked for location
                 case 2: {
                     boolean getnum = false;
                     while (!getnum) {
@@ -51,6 +65,10 @@ public class Cinema {
                             System.out.println("Wrong input!");
                             continue;
                         }
+                        //When correct input is entered the availablity is checked
+                        //if unavailable, user is asked for new location
+                        //if available the price of the ticket for location is calculated and seat is now unavailable
+                        //The current income (curIncome) and number of tickets bought are updated
                         if (cin[row][seat] == 0) {
                             if (totalSeats <= 60) {
                                 System.out.println("Ticket price: $10");
@@ -75,6 +93,8 @@ public class Cinema {
                         }
                     }
                 }
+                //if 2 is entered the current statistics are calculated and displayed
+                //the number of tickets bought, the percentage of seats taken, the current income and the possible total income
                 case 3: {
                     System.out.println(ticketsBought);
                     float a = ticketsBought;
@@ -88,6 +108,7 @@ public class Cinema {
                     System.out.println();
                     continue;
                 }
+                //if 0 is entered the seatsAvailable is turned to false and the while loop is finished and program ends    
                 case 0: {
                     seatsAvailable = false;
                     continue;
@@ -98,10 +119,13 @@ public class Cinema {
             }
         }
     }
+    
+    //this is a method to draw the cinema given the integer array of values
     public static void drawCin(int[][] cin, int rows, int seats) {
         System.out.println("Cinema:");
         int[] firstLine = new int[seats + 1];
         int place = 1;
+        //this loop just prints out the top row labeling the seat numbers
         for (int i = 0; i <= seats; i++) {
             if (i == 0) {
                 System.out.print(" ");
@@ -112,6 +136,7 @@ public class Cinema {
         }
         System.out.println();
         place = 1;
+        //this loop displays the cinema in terms of available (S) or unavailable (B) seats
         for(int i = 0; i < rows; i++) {
             System.out.print(place);
             for (int j = 0; j < seats; j++) {
@@ -126,4 +151,3 @@ public class Cinema {
         }
     }
 }
-
